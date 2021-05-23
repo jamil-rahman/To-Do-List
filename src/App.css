@@ -3,8 +3,6 @@
 }
 
 
-
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -20,3 +18,21 @@
   color: #61dafb;
 }
 
+.done{
+  text-decoration: line-through;
+}
+
+.task-list{
+  align-content:space-around;
+}
+
+.task-list li {
+  list-style-type: none;
+  align-content: space-between;
+}
+button{
+  background-color: rgb(226, 122, 4);
+}
+.btn-danger{
+  border: black;
+}

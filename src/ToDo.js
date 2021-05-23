@@ -70,7 +70,7 @@ export default class ToDo extends Component {
 
 //Deleting single tasks
     onDeleteHandle(){
-        let id = [0];
+        let id = arguments[0];
         this.setState({
             defaultData: this.state.defaultData.filter(item => {
                 if (item.id !== id)return item;
@@ -81,26 +81,45 @@ export default class ToDo extends Component {
     onUpdateHandle(e){
         e.preventDefault();
 
-        this.state({
-            defaultData: this.state.defaultData
-        })
+        this.setState({
+            defaultData: this.state.defaultData.map(item => {
+                if(item.id === this.state.id){
+                    item['title'] = e.target.updatedItem.value;
+                    return item;
+                }
+                return item;
+            })
+        });
+        this.setState({
+            edit: false
+        });
     }
+
+    updateEditForm(){
+        if(this.state.edit){
+            return <form onSubmit={this.onUpdateHandle.bind(this)}>
+                <input type="text" name="updatedItem" className="item" defaultValue={this.state.title}></input>
+                <button className="update-edit-btn">Update</button>
+            </form>
+        }
+    }
+
 
     render() {
         return (
             <div>
-            {/* {this.renderEditForm()} */}
+             {this.updateEditForm()} 
             <form onSubmit={this.onSubmitHandle.bind(this)}>
               <input type="text" name="item" className="item" />
               <button className="btn-add-item">Add</button>
             </form>
-            <ul>
+            <ul className="task-list">
               {this.state.defaultData.map(item => (
                 <li key={item.id} className={ item.done ? 'done' : 'hidden' }>
                   {item.title}
-                  <button onClick={this.onDeleteHandle.bind(this, item.id)}>Delete</button>
-                  <button onClick={this.onEditHandle.bind(this, item.id, item.title)}>Edit</button>
-                  <button onClick={this.onCompleteHandle.bind(this, item.id)}>Complete</button>
+                  <button  type="button" class="btn btn-danger btn-sm" onClick={this.onDeleteHandle.bind(this, item.id)}>Delete</button>
+                  <button className = "btn btn-primary btn-sm" type = "submit" onClick={this.onEditHandle.bind(this, item.id, item.title)}>Edit</button>
+                  <button type="button" class="btn btn-success btn-sm" onClick={this.onCompleteHandle.bind(this, item.id)}>Complete</button>
                 </li>
               ))}
             </ul>
